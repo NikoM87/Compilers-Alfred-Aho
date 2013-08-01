@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserPostfix", "ParserPostfix\ParserPostfix.csproj", "{AFE47CF6-DC02-4A6F-9B4E-B6BE5C924224}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexer", "Lexer\Lexer.csproj", "{597E6A0B-10EE-4728-8490-D5354FB7CB05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexerTests", "LexerTests\LexerTests.csproj", "{FD8C91A9-0548-43E7-8C49-3633C8531E84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{AFE47CF6-DC02-4A6F-9B4E-B6BE5C924224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE47CF6-DC02-4A6F-9B4E-B6BE5C924224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE47CF6-DC02-4A6F-9B4E-B6BE5C924224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{597E6A0B-10EE-4728-8490-D5354FB7CB05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{597E6A0B-10EE-4728-8490-D5354FB7CB05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597E6A0B-10EE-4728-8490-D5354FB7CB05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{597E6A0B-10EE-4728-8490-D5354FB7CB05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD8C91A9-0548-43E7-8C49-3633C8531E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD8C91A9-0548-43E7-8C49-3633C8531E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD8C91A9-0548-43E7-8C49-3633C8531E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD8C91A9-0548-43E7-8C49-3633C8531E84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
