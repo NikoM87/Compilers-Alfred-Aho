@@ -21,6 +21,30 @@ namespace LexerTests
             Assert.AreEqual( 1234567890, ( (Num) t ).Value );
         }
 
+
+        [TestMethod]
+        public void TestScanFloatNum()
+        {
+            var lex = new Lexer.Lexer();
+            var reader = new StringReader( "2. 3.14 .5" );
+
+            var t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof (Float), t.GetType() );
+            Assert.AreEqual( 2.0, ( (Float) t ).Value );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof (Float), t.GetType() );
+            Assert.AreEqual( 3.14, ( (Float) t ).Value );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof (Float), t.GetType() );
+            Assert.AreEqual( 0.5, ( (Float) t ).Value );
+        }
+
+
         [TestMethod]
         public void TestScanWord()
         {

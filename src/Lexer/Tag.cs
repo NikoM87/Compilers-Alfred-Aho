@@ -13,6 +13,7 @@
             Equal = 263,
             NotEqual = 264,
             BetterOrEqual = 265,
-            Better = 266;
+            Better = 266,
+            Float = 267;
     }
 }
