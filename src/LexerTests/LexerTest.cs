@@ -44,5 +44,20 @@ namespace LexerTests
             Assert.AreEqual( typeof (Comment), t.GetType() );
             Assert.AreEqual( " Comment", ( (Comment) t ).Value );
         }
+
+        [TestMethod]
+        public void TestScanMultilineComment()
+        {
+            const string textComment = "Comment line 1\n" +
+                                       "Comment line 2\n" +
+                                       "Comment line *";
+            var lex = new Lexer.Lexer();
+            var reader = new StringReader( "/*" + textComment + "*/" );
+
+            var t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Comment ), t.GetType() );
+            Assert.AreEqual( textComment, ( (Comment)t ).Value );
+        }
     }
 }

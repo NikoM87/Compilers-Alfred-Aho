@@ -82,6 +82,32 @@ namespace Lexer
 
                     return new Comment( Tag.Comment, buf.ToString() );
                 }
+
+                if ( _peek == '*' )
+                {
+                    var buf = new StringBuilder();
+
+                    _peek = (char) reader.Read();
+                                       
+                    while( true )
+                    {
+                        if ( _peek == '*' )
+                        {
+                            _peek = (char) reader.Read();
+                            if ( _peek == '/' )
+                            {
+                                return new Comment( Tag.Comment, buf.ToString() );
+                            }
+
+                            buf.Append( '*' );
+                        }
+                        else
+                        {
+                            buf.Append( _peek );
+                            _peek = (char) reader.Read();
+                        }
+                    }
+                }
             }
 
             var t = new Token( _peek );
