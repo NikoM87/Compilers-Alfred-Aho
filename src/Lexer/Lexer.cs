@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -38,16 +39,58 @@ namespace Lexer
                 else
                     break;
             }
+
             if ( Char.IsDigit( _peek ) )
-            {
-                int val = 0;
+            {               
+                var buf = new StringBuilder();
                 do
                 {
-                    val = 10*val + int.Parse( new string( _peek, 1 ) );
+                    buf.Append( _peek );
                     _peek = (char) reader.Read();
                 } while( Char.IsDigit( _peek ) );
 
-                return new Num( Tag.Num, val );
+                if ( _peek == '.' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    while( Char.IsDigit( _peek ) )
+                    {
+                        buf.Append( _peek );
+                        _peek = (char)reader.Read();
+                    }
+
+                    CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                    ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
+                    double d = double.Parse( buf.ToString(), NumberStyles.Any, ci );
+
+                    return new Float( Tag.Float, d );
+                }
+
+
+                return new Num( Tag.Num, int.Parse( buf.ToString() ) );
+            }
+
+            if ( _peek == '.' )
+            {
+                var buf = new StringBuilder();
+
+                buf.Append( _peek );
+                _peek = (char)reader.Read();
+
+                while ( Char.IsDigit( _peek ) )
+                {
+                    buf.Append( _peek );
+                    _peek = (char)reader.Read();
+                }
+
+                CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
+                double d = double.Parse( buf.ToString(), NumberStyles.Any, ci );
+
+                return new Float( Tag.Float, d );
             }
 
             if ( Char.IsLetter( _peek ) )
@@ -66,6 +109,114 @@ namespace Lexer
                 _words.Add( s, w );
                 return w;
             }
+
+            if ( _peek == '/' )
+            {
+                _peek = (char) reader.Read();
+                if ( _peek == '/' )
+                {
+                    _peek = (char) reader.Read();
+                    var buf = new StringBuilder();
+                    do
+                    {
+                        buf.Append( _peek );
+                        _peek = (char) reader.Read();
+                    } while( _peek != '\n' );
+
+                    return new Comment( Tag.Comment, buf.ToString() );
+                }
+
+                if ( _peek == '*' )
+                {
+                    var buf = new StringBuilder();
+
+                    _peek = (char) reader.Read();
+                                       
+                    while( true )
+                    {
+                        if ( _peek == '*' )
+                        {
+                            _peek = (char) reader.Read();
+                            if ( _peek == '/' )
+                            {
+                                return new Comment( Tag.Comment, buf.ToString() );
+                            }
+
+                            buf.Append( '*' );
+                        }
+                        else
+                        {
+                            buf.Append( _peek );
+                            _peek = (char) reader.Read();
+                        }
+                    }
+                }
+            }
+
+            if ( _peek == '<' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.LessOrEqual, buf.ToString() );
+                }
+
+                return new Word( Tag.Less, buf.ToString() );
+            }
+
+            if ( _peek == '>' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.BetterOrEqual, buf.ToString() );
+                }
+
+                return new Word( Tag.Better, buf.ToString() );
+            }
+
+            if ( _peek == '=' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.Equal, buf.ToString() );
+                }
+            }
+
+            if ( _peek == '!' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.NotEqual, buf.ToString() );
+                }
+            }
+
             var t = new Token( _peek );
             _peek = ' ';
             return t;
