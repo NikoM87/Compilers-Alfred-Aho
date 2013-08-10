@@ -31,5 +31,18 @@ namespace LexerTests
             Assert.AreEqual( typeof( Word ), t.GetType() );
             Assert.AreEqual( "abc2", ( (Word)t ).Lexeme );
         }
+
+
+        [TestMethod]
+        public void TestScanComment()
+        {
+            var lex = new Lexer.Lexer();
+            var reader = new StringReader( "// Comment\n" );
+
+            var t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof (Comment), t.GetType() );
+            Assert.AreEqual( " Comment", ( (Comment) t ).Value );
+        }
     }
 }

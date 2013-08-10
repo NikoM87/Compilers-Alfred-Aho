@@ -66,6 +66,24 @@ namespace Lexer
                 _words.Add( s, w );
                 return w;
             }
+
+            if ( _peek == '/' )
+            {
+                _peek = (char) reader.Read();
+                if ( _peek == '/' )
+                {
+                    _peek = (char) reader.Read();
+                    var buf = new StringBuilder();
+                    do
+                    {
+                        buf.Append( _peek );
+                        _peek = (char) reader.Read();
+                    } while( _peek != '\n' );
+
+                    return new Comment( Tag.Comment, buf.ToString() );
+                }
+            }
+
             var t = new Token( _peek );
             _peek = ' ';
             return t;

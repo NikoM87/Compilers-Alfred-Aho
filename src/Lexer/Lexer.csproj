@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Num.cs" />
     <Compile Include="Tag.cs" />
