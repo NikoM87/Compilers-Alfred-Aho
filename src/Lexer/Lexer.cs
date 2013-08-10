@@ -110,6 +110,70 @@ namespace Lexer
                 }
             }
 
+            if ( _peek == '<' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.LessOrEqual, buf.ToString() );
+                }
+
+                return new Word( Tag.Less, buf.ToString() );
+            }
+
+            if ( _peek == '>' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.BetterOrEqual, buf.ToString() );
+                }
+
+                return new Word( Tag.Better, buf.ToString() );
+            }
+
+            if ( _peek == '=' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.Equal, buf.ToString() );
+                }
+            }
+
+            if ( _peek == '!' )
+            {
+                var buf = new StringBuilder();
+                buf.Append( _peek );
+                _peek = (char) reader.Read();
+
+                if ( _peek == '=' )
+                {
+                    buf.Append( _peek );
+                    _peek = (char) reader.Read();
+
+                    return new Word( Tag.NotEqual, buf.ToString() );
+                }
+            }
+
             var t = new Token( _peek );
             _peek = ' ';
             return t;

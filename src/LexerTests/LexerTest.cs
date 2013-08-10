@@ -59,5 +59,42 @@ namespace LexerTests
             Assert.AreEqual( typeof( Comment ), t.GetType() );
             Assert.AreEqual( textComment, ( (Comment)t ).Value );
         }
+
+        [TestMethod]
+        public void TestScanCompare()
+        {
+            var lex = new Lexer.Lexer();
+            var reader = new StringReader( " < <= == != >= >" );
+
+            var t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word), t.GetType() );
+            Assert.AreEqual( Tag.Less, t.Tag );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word ), t.GetType() );
+            Assert.AreEqual( Tag.LessOrEqual, t.Tag );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word ), t.GetType() );
+            Assert.AreEqual( Tag.Equal, t.Tag );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word ), t.GetType() );
+            Assert.AreEqual( Tag.NotEqual, t.Tag );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word ), t.GetType() );
+            Assert.AreEqual( Tag.BetterOrEqual, t.Tag );
+
+            t = lex.Scan( reader );
+
+            Assert.AreEqual( typeof( Word ), t.GetType() );
+            Assert.AreEqual( Tag.Better, t.Tag );
+        }
     }
 }
